@@ -1,14 +1,15 @@
 import React from "react";
-import Weapon from "../../Weapon/Weapon";
+import Choice from "../../Choice/Choice";
 import "./Player.css";
 
-export default function Player({ label, weapon, loading, score }) {
+export default function Player({ label, choice, loading, score }) {
+
   return (
     <div className="player">
       <div>
         <span className="label">{label}</span>
       </div>
-      <Weapon icon={weapon} loading={loading} />
+      <Choice icon={choice} loading={loading} />
       <div>
         <p className="score">
           {" "}

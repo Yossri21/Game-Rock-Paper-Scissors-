@@ -1,4 +1,4 @@
-.Weapon {
+.Choice {
   height: 60px;
   background-color: #f8c91c;
   border: 2px solid transparent;
@@ -13,7 +13,7 @@
   width: 60px;
 }
 
-.Weapon:empty {
+.Choice:empty {
   background-color: transparent;
   border: 2px dashed #fff;
   color: #fff;

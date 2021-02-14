@@ -3,10 +3,10 @@ import Loading from "../Loading/Loading";
 import { FaHandRock } from "react-icons/fa";
 import { FaHandScissors } from "react-icons/fa";
 import { FaHandPaper } from "react-icons/fa";
-import "./Weapon.css";
+import "./Choice.css";
 
-export default function Weapon({ icon, loading }) {
-  const WeaponIcon = () => {
+export default function Choice({ icon, loading }) {
+  const ChoiceIcon = () => {
     switch (icon) {
       case "rock":
         return <FaHandRock />;
@@ -15,13 +15,13 @@ export default function Weapon({ icon, loading }) {
       case "paper":
         return <FaHandPaper />;
       default:
-        return "Unknown Weapon";
+        return "Unknown Choice";
     }
   };
 
   return (
-    <span className="Weapon">
-      {!loading && icon ? <WeaponIcon /> : null}
+    <span className="Choice">
+      {!loading && icon ? <ChoiceIcon /> : null}
       {!loading && !icon && "?"}
       {loading && <Loading />}
     </span>

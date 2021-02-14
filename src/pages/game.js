@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Modes from "../components/Actions/Actions";
 import Challenge from "../components/Challenge/Challenge";
-import WeaponList from "../components/WeaponList/WeaponList";
+import ChoiceList from "../components/ChoiceList/ChoiceList";
 import Result from "../components/Result/Result";
-import { getWinner, getRandomWeapon } from "../utils/utils";
-import { modes, modeKeys, weaponKeys } from "../utils/data";
+import { getWinner, getRandomChoice } from "../utils/utils";
+import { modes, modeKeys, choiceKeys } from "../utils/data";
 import "./game.css";
 import { FaHourglassHalf } from "react-icons/fa";
 
@@ -34,24 +34,24 @@ export default function Game() {
   const [mode, setMode] = useState(modeStorage);
   const [player1, setPlayer1] = useState({
     loading: false,
-    weapon: null,
+    choice: null,
     score: parseInt(player1Score),
   });
   const [player2, setPlayer2] = useState({
     loading: false,
-    weapon: null,
+    choice: null,
     score: parseInt(player2Score),
   });
   const [winner, setWinner] = useState(null);
 
-  const play = (weapon) => {
-    const weapon1 = getRandomWeapon();
-    const weapon2 = weapon || getRandomWeapon();
+  const play = (choice) => {
+    const choice1 = getRandomChoice();
+    const choice2 = choice || getRandomChoice();
     const simulateMode = mode === modeKeys[1];
-    let dataPlayer1 = { ...player1, weapon: weapon1, loading: true };
+    let dataPlayer1 = { ...player1, choice: choice1, loading: true };
     let dataPlayer2 = {
       ...player2,
-      weapon: weapon2,
+      choice: choice2,
       loading: simulateMode || player2.loading,
     };
     setPlayer1(dataPlayer1);
@@ -62,7 +62,7 @@ export default function Game() {
   };
 
   const setResult = (data1, data2) => {
-    const winner = getWinner(data1.weapon, data2.weapon);
+    const winner = getWinner(data1.choice, data2.choice);
     let score1 = data1.score + (winner === 1 ? 1 : 0);
     let score2 = data2.score + (winner === 2 ? 1 : 0);
 
@@ -85,11 +85,11 @@ export default function Game() {
   const restart = () => {
     setPlayer1({
       ...player1,
-      weapon: null,
+      choice: null,
     });
     setPlayer2({
       ...player2,
-      weapon: null,
+      choice: null,
     });
 
     setWinner(null);
@@ -98,13 +98,13 @@ export default function Game() {
   const resetScore = () => {
     setPlayer1({
       loading: false,
-      weapon: null,
+      choice: null,
       score: 0,
     });
 
     setPlayer2({
       loading: false,
-      weapon: null,
+      choice: null,
       score: 0,
     });
     setWinner(null);
@@ -145,9 +145,9 @@ export default function Game() {
 
       <div className="footer">
         {winner === null && !loading && mode === modeKeys[0] && (
-          <WeaponList
-            weapons={weaponKeys}
-            onClickWeapon={(weapon) => play(weapon)}
+          <ChoiceList
+            choices={choiceKeys}
+            onClickChoice={(choice) => play(choice)}
           />
         )}
 

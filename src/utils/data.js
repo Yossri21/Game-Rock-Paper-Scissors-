@@ -11,7 +11,7 @@ export const modes = {
   },
 };
 
-export const weapons = {
+export const choices = {
   rock: {
     wins: ["scissors"],
   },
@@ -24,4 +24,4 @@ export const weapons = {
 };
 
 export const modeKeys = Object.keys(modes);
-export const weaponKeys = Object.keys(weapons);
+export const choiceKeys = Object.keys(choices);
