@@ -1,13 +1,14 @@
 import React from 'react';
 import Player from './Player/Player'
 
+import './Challenge.css';
 export default function Challenge({ player1, player2 }) {
     return (
-        <div >
+        <div   className="container">
 		<Player
 			{...player1}
 		/>
-		<span className="vs">vs</span>
+		<span className="vs">VS</span>
 		<Player
 			{...player2}
 		/>

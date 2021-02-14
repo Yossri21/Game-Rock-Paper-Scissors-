@@ -1,15 +1,17 @@
 import React from 'react'
 import Button from '../Button/Button';
-import Weapon from '../Weapon/Weapon'
+import Weapon from '../Weapon/Weapon' 
+
+import './WeaponList.css';
 
 export default function WeaponList({ weapons, onClickWeapon }) {
     return (
-        <div >
-		<ul style = {{listStyleType: "none",
-    display: "flex"}}>
+        <div  className="WeaponList">
+		<ul  >
 			{weapons.map(weapon => (
 				<li key={weapon}>
-					<Button
+					<Button  
+					style={{background : "transparent"}}
 						onClick={() => onClickWeapon(weapon)}
 					>
 						<Weapon
@@ -18,8 +20,7 @@ export default function WeaponList({ weapons, onClickWeapon }) {
 					</Button>
 				</li>
 			))}
-		</ul>
-		<span >CHOOSE A WEAPON</span>
+		</ul> 
 	</div>
     )
 }

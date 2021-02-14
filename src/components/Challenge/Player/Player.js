@@ -1,9 +1,11 @@
 import React from 'react'
 import Weapon from '../../Weapon/Weapon';
 
+import './Player.css';
+
 export default function Player({ label, weapon, loading, score }) {
     return (
-        <div  >
+        <div  className="player" >
 		<div>
 			<span className="label">{label}</span>
 		</div>
@@ -12,7 +14,7 @@ export default function Player({ label, weapon, loading, score }) {
 			loading={loading}
 		/>
 		<div>
-			<span className="score">{score} PT{score > 1 && 'S'}</span>
+		 <p className="score">  {score} pt{score > 1 && 's'}</p>
 		</div>
 	</div>
     )

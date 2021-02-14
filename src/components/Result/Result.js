@@ -1,9 +1,10 @@
 import React from 'react'
 import Button from '../Button/Button';
+import './Result.css';
 
 export default function Result({ winner, player1Label, player2Label, onClickPlay, loading }) {
     return (
-        <div  >
+        <div className="results" >
 		{winner !== null && !loading && (
 			<div className="winner">
 				<span>

@@ -1,0 +1,15 @@
+
+
+.container {
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+	
+}
+.vs {
+    font-size: 40px;
+    font-weight: bold;
+    
+}

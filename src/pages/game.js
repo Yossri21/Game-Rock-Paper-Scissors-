@@ -1,9 +1,11 @@
 import React, { useState } from "react";
-import Modes from "../components/Modes/Modes";
+import Modes from "../components/Actions/Actions";
 import Challenge from "../components/Challenge/Challenge";
 import WeaponList from "../components/WeaponList/WeaponList";
 import Result from "../components/Result/Result";
+import { FaHourglassHalf } from "react-icons/fa";
 
+import "./game.css";
 
 export default function Game() {
   const weapons = {
@@ -41,146 +43,175 @@ export default function Game() {
     return weapons[weapon1].wins.some((wins) => wins === weapon2) ? 1 : 2;
   };
 
-  const [mode, setMode] = useState(modeKeys[0]);
+  let modeStorage =  modeKeys[0]
+  let player1Score = 0 
+  let player2Score = 0
+  
+  if(localStorage.getItem('mode') ){
+    modeStorage =   localStorage.getItem('mode')
+  }else{
+    localStorage.setItem("mode", modeKeys[0])
+  }
+
+  if(localStorage.getItem('player1Score') ){
+    player1Score =   localStorage.getItem('player1Score')
+  }else{
+    localStorage.setItem("player1Score", 0)
+  }
+
+  if(localStorage.getItem('player2Score') ){
+    player2Score =   localStorage.getItem('player2Score')
+  }else{
+    localStorage.setItem("player2Score", 0)
+  }
+   
+   
+
+  const [mode, setMode] = useState(modeStorage);
+  
+  console.log('mode 73' , mode , localStorage.getItem('mode'))
   const [player1, setPlayer1] = useState({
     loading: false,
     weapon: null,
-    score: 0,
+    score:  parseInt(player1Score),
   });
   const [player2, setPlayer2] = useState({
     loading: false,
     weapon: null,
-    score: 0,
+    score:   parseInt(player2Score),
   });
   const [winner, setWinner] = useState(null);
 
   const play = (weapon) => {
-    
     const weapon1 = getRandomWeapon();
     const weapon2 = weapon || getRandomWeapon();
     const simulateMode = mode === modeKeys[1];
-    console.log(weapon , weapon1 , weapon2)
+    console.log(weapon, weapon1, weapon2);
 
-    let dataPlayer1 = { ...player1, weapon: weapon1, loading: true }
+    let dataPlayer1 = { ...player1, weapon: weapon1, loading: true };
     let dataPlayer2 = {
-        ...player2,
-        weapon: weapon2,
-        loading: simulateMode || player2.loading,
-      }
+      ...player2,
+      weapon: weapon2,
+      loading: simulateMode || player2.loading,
+    };
     setPlayer1(dataPlayer1);
- 
+
     setPlayer2(dataPlayer2);
-   
-    
+
     // Update result after some delay
     setTimeout(() => {
-      setResult(dataPlayer1 , dataPlayer2 );
+      setResult(dataPlayer1, dataPlayer2);
     }, 900);
   };
 
-  const setResult = (data1 , data2) => {
-  
-    
+  const setResult = (data1, data2) => {
     const winner = getWinner(data1.weapon, data2.weapon);
- 
-    
+    let score1 = data1.score + (winner === 1 ? 1 : 0)
+    let score2 =data2.score + (winner === 2 ? 1 : 0)
+
     setPlayer1({
       ...data1,
-      score: data1.score + (winner === 1 ? 1 : 0),
+      score:score1,
       loading: false,
     });
     setPlayer2({
       ...data2,
-      score: data2.score + (winner === 2 ? 1 : 0),
+      score: score2,
       loading: false,
     });
     setWinner(winner);
+
+    //115
+
+    localStorage.setItem("player1Score" , score1 )
+    localStorage.setItem("player2Score" , score2)
+
   };
 
- const  restart = () => {
-
+  const restart = () => {
     setPlayer1({
-        ...player1 ,
-        weapon : null ,
-    })
+      ...player1,
+      weapon: null,
+    });
     setPlayer2({
-        ...player2 ,
-        weapon : null ,
-    })
+      ...player2,
+      weapon: null,
+    });
 
- setWinner(null)
-}
+    setWinner(null);
+  };
 
-const reset = () => {
 
-    setMode(modeKeys[0])
+  const resetScore = () => {
     setPlayer1({
-        loading: false,
-        weapon: null,
-        score: 0,
-      })
- 
-      setPlayer2({
-        loading: false,
-        weapon: null,
-        score: 0,
-      })
- setWinner (null);
+      loading: false,
+      weapon: null,
+      score: 0,
+    });
+
+    setPlayer2({
+      loading: false,
+      weapon: null,
+      score: 0,
+    });
+    setWinner(null);
+    localStorage.setItem("player1Score", 0)
+    localStorage.setItem("player2Score", 0)
     
-}
+  };
 
-const toggleMode = () => {
-   
-   reset();
-    setMode(   mode === modeKeys[0] ? modeKeys[1] : modeKeys[0]  )
-}
+  const toggleMode = () => {
+    resetScore();
+    setMode(mode === modeKeys[0] ? modeKeys[1] : modeKeys[0]);
+    localStorage.setItem("mode",mode === modeKeys[0] ? modeKeys[1] : modeKeys[0] )
+  };
+  console.log('mode 167' , mode , localStorage.getItem('mode'))
+  const { player1Label, player2Label } = modes[mode];
+  const loading = player1.loading || player2.loading;
 
+  console.log('mode 171' , mode , localStorage.getItem('mode'))
+  return (
 
- 
-    const { player1Label, player2Label } = modes[mode];
-    const loading = (player1.loading || player2.loading);
+    
+    <div className="game">
+      <h1>Waste An Hour Having Fun {<FaHourglassHalf />}</h1>
 
-    return (
-        <div  > 
-            <h1>
-                ROCK, PAPER, SCISSORS
-            </h1>
+      <div className="modes">
+        <Modes
+          onClickMode={() => toggleMode()}
+          label={modes[mode].label}
+          text={"CHANGE MODE"}
+        />
+      </div>
 
-            <div className="modes">
-                <Modes
-                    onClickMode={() => toggleMode()}
-                    label={modes[mode].label}
-                />
-            </div>
+      <div className="challenge">
+        <Challenge
+          player1={{ ...player1, label: player1Label }}
+          player2={{ ...player2, label: player2Label }}
+        />
+      </div>
 
-            <div className="challenge">
-                <Challenge
-                    player1={{ ...player1, label: player1Label }}
-                    player2={{ ...player2, label: player2Label }}
-                />
-            </div>
+      <div className="footer">
+        {winner === null && !loading && mode === modeKeys[0] && (
+          <WeaponList
+            weapons={weaponKeys}
+            onClickWeapon={(weapon) => play(weapon)}
+          />
+        )}
 
-            <div className="footer">
-                {winner === null && !loading && mode === modeKeys[0] && (
-                    <WeaponList
-                        weapons={weaponKeys}
-                        onClickWeapon={weapon => play(weapon)}
-                    />
-                )}
-
-                {(winner !== null || loading || mode === modeKeys[1]) && (
-                    <Result
-                        player1Label={player1Label}
-                        player2Label={player2Label}
-                        winner={winner}
-                        loading={loading}
-                        onClickPlay={() => mode === modeKeys[1] ?
-                            play() : restart()
-                        }
-                    />
-                )}
-            </div>
-        </div>
-    );
-
+        {(winner !== null || loading || mode === modeKeys[1]) && (
+          <Result
+            player1Label={player1Label}
+            player2Label={player2Label}
+            winner={winner}
+            loading={loading}
+            onClickPlay={() => (mode === modeKeys[1] ? play() : restart())}
+          />
+        )}
+          <Modes onClickMode={() => resetScore()} 
+       
+       text={"RESET GAME"} />
+      </div>
+    </div>
+  );
 }

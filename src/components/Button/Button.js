@@ -1,13 +1,11 @@
 import React from 'react'
-
+import './Button.css';
 export default function Button({ children, ...rest }) {
     return (
         <button
+		className="Button"
 		{...rest}
-		style = {{    fontSize: 31 ,
-			background: "none",
-			color: "gray",
-			border: "none"}}
+		 
 	>
 		{children}
 	</button>
