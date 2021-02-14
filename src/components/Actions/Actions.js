@@ -4,7 +4,7 @@ import './Actions.css';
 export default function Modes({ label, onClickMode , text}) {
     return (
         <div  className="Mode" >
-		<span  >{label||""}</span><br />
+		<span className="labelTitle"  >{label||""}</span> 
 		<Button 
 		 className="Button"
 			onClick={onClickMode}

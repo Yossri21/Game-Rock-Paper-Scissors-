@@ -9,6 +9,7 @@
 
 	 span {
 		vertical-align: middle;
+		
 	}
 
 	.score {
@@ -22,4 +23,5 @@
 		display: inline-block;
 		font-size: 12px;
 		margin: 10px 0;
+		font-weight: bold;
 	}

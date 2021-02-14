@@ -1,14 +1,11 @@
-
-import './App.css';
-import Game from './pages/game';
+import "./App.css";
+import Game from "./pages/game";
 
 function App() {
   return (
-  <div  className="body" >
-<Game />
-</div>
-   
-
+    <div className="body">
+      <Game />
+    </div>
   );
 }
 

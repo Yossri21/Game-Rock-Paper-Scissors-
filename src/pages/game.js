@@ -3,46 +3,14 @@ import Modes from "../components/Actions/Actions";
 import Challenge from "../components/Challenge/Challenge";
 import WeaponList from "../components/WeaponList/WeaponList";
 import Result from "../components/Result/Result";
+import { getWinner , getRandomWeapon } from "../utils/utils";
+import {  modes , modeKeys , weaponKeys } from "../utils/data"
+import "./game.css";
 import { FaHourglassHalf } from "react-icons/fa";
 
-import "./game.css";
-
 export default function Game() {
-  const weapons = {
-    rock: {
-      wins: ["scissors"],
-    },
-    paper: {
-      wins: ["rock"],
-    },
-    scissors: {
-      wins: ["paper"],
-    },
-  };
-
-  const modes = {
-    vs: {
-      label: "PLAYER VS COMPUTER",
-      player1Label: "COMPUTER",
-      player2Label: "PLAYER",
-    },
-    simulate: {
-      label: "COMPUTER VS COMPUTER",
-      player1Label: "COMPUTER 1",
-      player2Label: "COMPUTER 2",
-    },
-  };
-  const modeKeys = Object.keys(modes);
-  const weaponKeys = Object.keys(weapons);
-  const getRandomWeapon = () => {
-    return weaponKeys[(weaponKeys.length * Math.random()) << 0];
-  };
-
-  const getWinner = (weapon1, weapon2) => {
-    if (weapon1 === weapon2) return 0;
-    return weapons[weapon1].wins.some((wins) => wins === weapon2) ? 1 : 2;
-  };
-
+ 
+  
   let modeStorage =  modeKeys[0]
   let player1Score = 0 
   let player2Score = 0
@@ -68,8 +36,6 @@ export default function Game() {
    
 
   const [mode, setMode] = useState(modeStorage);
-  
-  console.log('mode 73' , mode , localStorage.getItem('mode'))
   const [player1, setPlayer1] = useState({
     loading: false,
     weapon: null,
@@ -86,7 +52,6 @@ export default function Game() {
     const weapon1 = getRandomWeapon();
     const weapon2 = weapon || getRandomWeapon();
     const simulateMode = mode === modeKeys[1];
-    console.log(weapon, weapon1, weapon2);
 
     let dataPlayer1 = { ...player1, weapon: weapon1, loading: true };
     let dataPlayer2 = {
@@ -101,7 +66,7 @@ export default function Game() {
     // Update result after some delay
     setTimeout(() => {
       setResult(dataPlayer1, dataPlayer2);
-    }, 900);
+    }, 600);
   };
 
   const setResult = (data1, data2) => {
@@ -120,8 +85,6 @@ export default function Game() {
       loading: false,
     });
     setWinner(winner);
-
-    //115
 
     localStorage.setItem("player1Score" , score1 )
     localStorage.setItem("player2Score" , score2)
@@ -165,11 +128,9 @@ export default function Game() {
     setMode(mode === modeKeys[0] ? modeKeys[1] : modeKeys[0]);
     localStorage.setItem("mode",mode === modeKeys[0] ? modeKeys[1] : modeKeys[0] )
   };
-  console.log('mode 167' , mode , localStorage.getItem('mode'))
   const { player1Label, player2Label } = modes[mode];
   const loading = player1.loading || player2.loading;
 
-  console.log('mode 171' , mode , localStorage.getItem('mode'))
   return (
 
     
