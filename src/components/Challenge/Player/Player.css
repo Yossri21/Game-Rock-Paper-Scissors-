@@ -1,27 +1,23 @@
+.player {
+  display: inline-block;
+  font-size: 14px;
+  text-align: center;
+  width: 400px;
+}
 
+span {
+  vertical-align: middle;
+}
 
-	 .player {
-		display: inline-block;
-		font-size: 14px;
-		text-align: center;
-		width: 400px;
-	}
+.score {
+  font-size: 40px;
 
-	 span {
-		vertical-align: middle;
-		
-	}
+  margin-top: 5px;
+}
 
-	.score {
-	 
-	    font-size: 40px;
-     
-    margin-top: 5px;
-	}
-
-  .label {
-		display: inline-block;
-		font-size: 12px;
-		margin: 10px 0;
-		font-weight: bold;
-	}
+.label {
+  display: inline-block;
+  font-size: 12px;
+  margin: 10px 0;
+  font-weight: bold;
+}

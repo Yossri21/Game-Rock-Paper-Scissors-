@@ -8,7 +8,7 @@ export default function Result({ winner, player1Label, player2Label, onClickPlay
 		{winner !== null && !loading && (
 			<div className="winner">
 				<span>
-					{winner === 0 ? 'TIE' : `${(winner === 1 ? player1Label : player2Label)} WINS`}
+					{winner === 0 ? 'OOPS TIE' : `${(winner === 1 ? player1Label : player2Label)} WINS`}
 				</span>
 			</div>
 		)}

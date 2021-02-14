@@ -1,22 +1,21 @@
- .Weapon  {
-	height: 60px;
-	background-color: #F8C91C;
-	border: 2px solid transparent;
-	border-radius: 50%;
-	display: inline-block;
-	color: #000000;
-	font-size: 60px;
-	height:60px;
-	line-height: 60px;
-	padding: 20px;
-	text-align: center;
-	width: 60px;
- }
+.Weapon {
+  height: 60px;
+  background-color: #f8c91c;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  display: inline-block;
+  color: #000000;
+  font-size: 60px;
+  height: 60px;
+  line-height: 60px;
+  padding: 20px;
+  text-align: center;
+  width: 60px;
+}
 
- .Weapon:empty {
-		background-color: transparent;
-		border: 2px dashed #fff;
-		color: #fff;
-		font-size: 30px;
-	}
- 
+.Weapon:empty {
+  background-color: transparent;
+  border: 2px dashed #fff;
+  color: #fff;
+  font-size: 30px;
+}

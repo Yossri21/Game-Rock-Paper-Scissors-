@@ -3,48 +3,44 @@ import Modes from "../components/Actions/Actions";
 import Challenge from "../components/Challenge/Challenge";
 import WeaponList from "../components/WeaponList/WeaponList";
 import Result from "../components/Result/Result";
-import { getWinner , getRandomWeapon } from "../utils/utils";
-import {  modes , modeKeys , weaponKeys } from "../utils/data"
+import { getWinner, getRandomWeapon } from "../utils/utils";
+import { modes, modeKeys, weaponKeys } from "../utils/data";
 import "./game.css";
 import { FaHourglassHalf } from "react-icons/fa";
 
 export default function Game() {
- 
-  
-  let modeStorage =  modeKeys[0]
-  let player1Score = 0 
-  let player2Score = 0
-  
-  if(localStorage.getItem('mode') ){
-    modeStorage =   localStorage.getItem('mode')
-  }else{
-    localStorage.setItem("mode", modeKeys[0])
+  let modeStorage = modeKeys[0];
+  let player1Score = 0;
+  let player2Score = 0;
+
+  if (localStorage.getItem("mode")) {
+    modeStorage = localStorage.getItem("mode");
+  } else {
+    localStorage.setItem("mode", modeKeys[0]);
   }
 
-  if(localStorage.getItem('player1Score') ){
-    player1Score =   localStorage.getItem('player1Score')
-  }else{
-    localStorage.setItem("player1Score", 0)
+  if (localStorage.getItem("player1Score")) {
+    player1Score = localStorage.getItem("player1Score");
+  } else {
+    localStorage.setItem("player1Score", 0);
   }
 
-  if(localStorage.getItem('player2Score') ){
-    player2Score =   localStorage.getItem('player2Score')
-  }else{
-    localStorage.setItem("player2Score", 0)
+  if (localStorage.getItem("player2Score")) {
+    player2Score = localStorage.getItem("player2Score");
+  } else {
+    localStorage.setItem("player2Score", 0);
   }
-   
-   
 
   const [mode, setMode] = useState(modeStorage);
   const [player1, setPlayer1] = useState({
     loading: false,
     weapon: null,
-    score:  parseInt(player1Score),
+    score: parseInt(player1Score),
   });
   const [player2, setPlayer2] = useState({
     loading: false,
     weapon: null,
-    score:   parseInt(player2Score),
+    score: parseInt(player2Score),
   });
   const [winner, setWinner] = useState(null);
 
@@ -52,7 +48,6 @@ export default function Game() {
     const weapon1 = getRandomWeapon();
     const weapon2 = weapon || getRandomWeapon();
     const simulateMode = mode === modeKeys[1];
-
     let dataPlayer1 = { ...player1, weapon: weapon1, loading: true };
     let dataPlayer2 = {
       ...player2,
@@ -60,10 +55,7 @@ export default function Game() {
       loading: simulateMode || player2.loading,
     };
     setPlayer1(dataPlayer1);
-
     setPlayer2(dataPlayer2);
-
-    // Update result after some delay
     setTimeout(() => {
       setResult(dataPlayer1, dataPlayer2);
     }, 600);
@@ -71,12 +63,12 @@ export default function Game() {
 
   const setResult = (data1, data2) => {
     const winner = getWinner(data1.weapon, data2.weapon);
-    let score1 = data1.score + (winner === 1 ? 1 : 0)
-    let score2 =data2.score + (winner === 2 ? 1 : 0)
+    let score1 = data1.score + (winner === 1 ? 1 : 0);
+    let score2 = data2.score + (winner === 2 ? 1 : 0);
 
     setPlayer1({
       ...data1,
-      score:score1,
+      score: score1,
       loading: false,
     });
     setPlayer2({
@@ -86,9 +78,8 @@ export default function Game() {
     });
     setWinner(winner);
 
-    localStorage.setItem("player1Score" , score1 )
-    localStorage.setItem("player2Score" , score2)
-
+    localStorage.setItem("player1Score", score1);
+    localStorage.setItem("player2Score", score2);
   };
 
   const restart = () => {
@@ -104,7 +95,6 @@ export default function Game() {
     setWinner(null);
   };
 
-
   const resetScore = () => {
     setPlayer1({
       loading: false,
@@ -118,22 +108,23 @@ export default function Game() {
       score: 0,
     });
     setWinner(null);
-    localStorage.setItem("player1Score", 0)
-    localStorage.setItem("player2Score", 0)
-    
+    localStorage.setItem("player1Score", 0);
+    localStorage.setItem("player2Score", 0);
   };
 
   const toggleMode = () => {
     resetScore();
     setMode(mode === modeKeys[0] ? modeKeys[1] : modeKeys[0]);
-    localStorage.setItem("mode",mode === modeKeys[0] ? modeKeys[1] : modeKeys[0] )
+    localStorage.setItem(
+      "mode",
+      mode === modeKeys[0] ? modeKeys[1] : modeKeys[0]
+    );
   };
+
   const { player1Label, player2Label } = modes[mode];
   const loading = player1.loading || player2.loading;
 
   return (
-
-    
     <div className="game">
       <h1>Waste An Hour Having Fun {<FaHourglassHalf />}</h1>
 
@@ -169,9 +160,7 @@ export default function Game() {
             onClickPlay={() => (mode === modeKeys[1] ? play() : restart())}
           />
         )}
-          <Modes onClickMode={() => resetScore()} 
-       
-       text={"RESET GAME"} />
+        <Modes onClickMode={() => resetScore()} text={"RESET GAME"} />
       </div>
     </div>
   );

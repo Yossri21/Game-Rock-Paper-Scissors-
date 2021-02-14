@@ -1,16 +1,15 @@
 .Mode {
-    text-align: center;
-	padding: 10px;
+  text-align: center;
+  padding: 10px;
 }
 
- 
 .button {
-		font-size: 12px;
-		margin-top: 10px;
-		padding: 4px 7px;
-	}
- 
-.labelTitle{
-	margin : 0 0 15px;
-	display: block;
+  font-size: 12px;
+  margin-top: 10px;
+  padding: 4px 7px;
+}
+
+.labelTitle {
+  margin: 0 0 15px;
+  display: block;
 }
