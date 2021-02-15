@@ -3,7 +3,7 @@ import Game from "./pages/game";
 
 function App() {
   return (
-    <div className="body">
+    <div className="wrapper">
       <Game />
     </div>
   );

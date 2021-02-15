@@ -3,62 +3,52 @@ import Modes from "../components/Actions/Actions";
 import Challenge from "../components/Challenge/Challenge";
 import ChoiceList from "../components/ChoiceList/ChoiceList";
 import Result from "../components/Result/Result";
-import { getWinner, getRandomChoice } from "../utils/utils";
-import { modes, modeKeys, choiceKeys } from "../utils/data";
+import {
+  getWinner,
+  getRandomChoice,
+  getLocalStorageItem,
+  setLocalStorageItem,
+  setLocalStorageDefaultGameValues,
+} from "../utils/utils";
+import { modes, modeKeys, choiceKeys, timeoutOfGame } from "../utils/data";
 import "./game.css";
 import { FaHourglassHalf } from "react-icons/fa";
 
 export default function Game() {
-  let modeStorage = modeKeys[0];
-  let player1Score = 0;
-  let player2Score = 0;
+  // set the defaults vaules in LocalStorage
+  setLocalStorageDefaultGameValues();
 
-  if (localStorage.getItem("mode")) {
-    modeStorage = localStorage.getItem("mode");
-  } else {
-    localStorage.setItem("mode", modeKeys[0]);
-  }
+  const [mode, setMode] = useState(getLocalStorageItem("mode") ?? modeKeys[0]);
 
-  if (localStorage.getItem("player1Score")) {
-    player1Score = localStorage.getItem("player1Score");
-  } else {
-    localStorage.setItem("player1Score", 0);
-  }
-
-  if (localStorage.getItem("player2Score")) {
-    player2Score = localStorage.getItem("player2Score");
-  } else {
-    localStorage.setItem("player2Score", 0);
-  }
-
-  const [mode, setMode] = useState(modeStorage);
   const [player1, setPlayer1] = useState({
     loading: false,
     choice: null,
-    score: parseInt(player1Score),
+    score: parseInt(getLocalStorageItem("player1Score") ?? 0),
   });
+
   const [player2, setPlayer2] = useState({
     loading: false,
     choice: null,
-    score: parseInt(player2Score),
+    score: parseInt(getLocalStorageItem("player2Score") ?? 0),
   });
+
   const [winner, setWinner] = useState(null);
 
   const play = (choice) => {
     const choice1 = getRandomChoice();
     const choice2 = choice || getRandomChoice();
-    const simulateMode = mode === modeKeys[1];
+    const isSimulateMode = mode === modeKeys[1];
     let dataPlayer1 = { ...player1, choice: choice1, loading: true };
     let dataPlayer2 = {
       ...player2,
       choice: choice2,
-      loading: simulateMode || player2.loading,
+      loading: isSimulateMode || player2.loading,
     };
-    setPlayer1(dataPlayer1);
+    setPlayer1({ ...player1, choice: choice1, loading: true });
     setPlayer2(dataPlayer2);
     setTimeout(() => {
       setResult(dataPlayer1, dataPlayer2);
-    }, 600);
+    }, timeoutOfGame);
   };
 
   const setResult = (data1, data2) => {
@@ -77,9 +67,8 @@ export default function Game() {
       loading: false,
     });
     setWinner(winner);
-
-    localStorage.setItem("player1Score", score1);
-    localStorage.setItem("player2Score", score2);
+    setLocalStorageItem("player1Score", score1);
+    setLocalStorageItem("player2Score", score2);
   };
 
   const restart = () => {
@@ -108,14 +97,14 @@ export default function Game() {
       score: 0,
     });
     setWinner(null);
-    localStorage.setItem("player1Score", 0);
-    localStorage.setItem("player2Score", 0);
+    setLocalStorageItem("player1Score", 0);
+    setLocalStorageItem("player2Score", 0);
   };
 
   const toggleMode = () => {
     resetScore();
     setMode(mode === modeKeys[0] ? modeKeys[1] : modeKeys[0]);
-    localStorage.setItem(
+    setLocalStorageItem(
       "mode",
       mode === modeKeys[0] ? modeKeys[1] : modeKeys[0]
     );

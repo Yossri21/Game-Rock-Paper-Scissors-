@@ -25,3 +25,4 @@ export const choices = {
 
 export const modeKeys = Object.keys(modes);
 export const choiceKeys = Object.keys(choices);
+export const timeoutOfGame = 700;
